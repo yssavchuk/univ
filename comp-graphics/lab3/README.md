@@ -11,3 +11,5 @@
 ## Running tests
 
 To run tests execute the following:
+
+`bundle exec rspec regional_search_spec.rb`
