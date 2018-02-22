@@ -10,8 +10,8 @@ class PointRange
     @points = []
   end
 
-  def add_point(p)
-    @points << p
+  def add_points(p)
+    p.select { |ps| ps.x >= beg && ps.x < close }.tap { |ps| @points += ps }
   end
 
   # If the receiver of the call is

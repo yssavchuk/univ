@@ -1,7 +1,7 @@
 class Point
   attr_accessor :x, :y
 
-  def initialize(x = 10, y = 10)
+  def initialize(x, y)
     @x = x
     @y = y
   end
