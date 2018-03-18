@@ -1,8 +1,5 @@
 require_relative '../lab3/point'
 
-
-
-
 class QuickHull
   attr_accessor :hull
 
@@ -14,34 +11,31 @@ class QuickHull
     @hull ||= process
   end
 
+  private
+
   def process
-    min = points.min_by { |p| p.x }
-    max = points.max_by { |p| p.x }
+    @hull = []
+    min = @points.min_by &:x
+    max = @points.max_by &:x
 
     quick(min, max, -1)
     quick(min, max, 1)
+    @hull.uniq!
   end
 
-  def to_s
-    @points
-  end
-
-  private
   def quick(p1, p2, side)
-    with_max_dist =
-        points.inject do |with_max, point|
-          point if side_to_line(p1, p2, point) == side &&
-            dist_to_line(p1, p2, point) > dist_to_line(p1, p2, with_max)
-          with_max
-        end
+    with_max_dist = nil
+    @points.each do |point|
+      with_max_dist = point if side_to_line(p1, p2, point) == side &&
+          dist_to_line(p1, p2, point) > dist_to_line(p1, p2, with_max_dist)
+    end
 
     if with_max_dist.nil?
       @hull += [p1, p2]
     else
       quick(with_max_dist, p1, -side_to_line(with_max_dist, p1, p2))
-      quick(with_max_dist, p2, -side_to_line(with_max_dist, p1, p2))
+      quick(with_max_dist, p2, -side_to_line(with_max_dist, p2, p1))
     end
-
   end
 
   def pow_dist(p1, p2)
@@ -69,3 +63,5 @@ class QuickHull
   def dist_to_line(p1, p2, p)
     p.nil? ? 0 : vec_product(p1, p2, p).abs
   end
+end
+
