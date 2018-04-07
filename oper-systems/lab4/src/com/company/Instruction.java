@@ -1,4 +1,6 @@
-public class Instruction 
+package com.company;
+
+public class Instruction
 {
   public String inst;
   public long addr;

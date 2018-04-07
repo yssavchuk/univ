@@ -1,4 +1,5 @@
-import java.applet.*;
+package com.company;
+
 import java.awt.*;
 
 public class ControlPanel extends Frame 
