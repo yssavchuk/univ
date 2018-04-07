@@ -1,0 +1,42 @@
+Process: 0 registered... (1100 200 0 0)
+Process: 0 I/O blocked... (1100 200 200 1)
+
+Process: 1 registered... (1100 350 0 0)
+Process: 1 I/O blocked... (1100 350 350 1)
+
+Process: 2 registered... (1100 450 0 0)
+
+Process: 0 registered... (1100 200 200 1)
+Process: 0 I/O blocked... (1100 200 400 2)
+
+Process: 1 registered... (1100 350 350 1)
+Process: 1 I/O blocked... (1100 350 700 2)
+
+Process: 2 registered... (1100 450 351 0)
+Process: 2 I/O blocked... (1100 450 450 1)
+
+Process: 0 registered... (1100 200 400 2)
+Process: 0 I/O blocked... (1100 200 600 3)
+
+Process: 1 registered... (1100 350 700 2)
+Process: 1 I/O blocked... (1100 350 1050 3)
+
+Process: 2 registered... (1100 450 450 1)
+
+Process: 0 registered... (1100 200 600 3)
+Process: 0 I/O blocked... (1100 200 800 4)
+
+Process: 1 registered... (1100 350 1050 3)
+Process: 1 completed... (1100 350 1100 3)
+
+Process: 2 registered... (1100 450 801 1)
+Process: 2 I/O blocked... (1100 450 900 2)
+
+Process: 0 registered... (1100 200 800 4)
+Process: 0 I/O blocked... (1100 200 1000 5)
+
+Process: 2 registered... (1100 450 900 2)
+Process: 2 completed... (1100 450 1100 2)
+
+Process: 0 registered... (1100 200 1000 5)
+Process: 0 completed... (1100 200 1100 5)
