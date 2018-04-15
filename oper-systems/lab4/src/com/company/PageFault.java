@@ -84,7 +84,7 @@ public class PageFault {
     Page nextpage = ( Page ) mem.elementAt( replacePageNum );
     controlPanel.removePhysicalPage( oldestPage );
     nextpage.physical = page.physical;
-    controlPanel.addPhysicalPage( nextpage.physical , replacePageNum );
+    controlPanel.addPhysicalPage( replacePageNum, nextpage.physical );
     page.inMemTime = 0;
     page.lastTouchTime = 0;
     page.R = 0;
