@@ -389,25 +389,14 @@ public class Kernel extends Thread
 
   public void run()
   {
-    step();
-    while (runs != runcycles) 
-    {
-      try 
-      {
-        Thread.sleep(2000);
-      } 
-      catch(InterruptedException e) 
-      {  
-        /* Do nothing */ 
-      }
+    do {
       step();
-    }  
+    }while(runs != runcycles);
   }
 
   public void step()
   {
     int i = 0;
-
     Instruction instruct = ( Instruction ) instructVector.elementAt( runs );
     controlPanel.instructionValueLabel.setText( instruct.inst );
     controlPanel.addressValueLabel.setText( Long.toString( instruct.addr , addressradix ) );
@@ -429,7 +418,7 @@ public class Kernel extends Thread
         {
           System.out.println( "READ " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel );
+        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
         controlPanel.pageFaultValueLabel.setText( "YES" );
       } 
       else 
@@ -459,11 +448,13 @@ public class Kernel extends Thread
         {
            System.out.println( "WRITE " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel );          controlPanel.pageFaultValueLabel.setText( "YES" );
+        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
+        controlPanel.pageFaultValueLabel.setText( "YES" );
       } 
       else 
       {
         page.M = 1;
+        page.R = 1;
         page.lastTouchTime = 0;
         if ( doFileLog )
         {
@@ -481,6 +472,7 @@ public class Kernel extends Thread
       if ( page.R == 1 && page.lastTouchTime == 10 ) 
       {
         page.R = 0;
+        page.M = 0;
       }
       if ( page.physical != -1 ) 
       {

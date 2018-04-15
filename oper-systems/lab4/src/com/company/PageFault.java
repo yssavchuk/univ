@@ -50,8 +50,10 @@ public class PageFault {
    *   page fault.  
    * @param controlPanel represents the graphical element of the 
    *   simulator, and allows one to modify the current display.
+   * @param instruction describes type of instruction which was called
+   *   'READ' or 'WRITE'
    */
-  public static void replacePage ( Vector mem , int virtPageNum , int replacePageNum , ControlPanel controlPanel ) 
+  public static void replacePage ( Vector mem , int virtPageNum , int replacePageNum , ControlPanel controlPanel, String instruction)
   {
     int count = 0;
     int oldestPage = -1;
@@ -82,6 +84,10 @@ public class PageFault {
     }
     Page page = ( Page ) mem.elementAt( oldestPage );
     Page nextpage = ( Page ) mem.elementAt( replacePageNum );
+    nextpage.R = 1;
+    if(instruction.equals("WRITE")) {
+      nextpage.M = 1;
+    }
     controlPanel.removePhysicalPage( oldestPage );
     nextpage.physical = page.physical;
     controlPanel.addPhysicalPage( replacePageNum, nextpage.physical );
