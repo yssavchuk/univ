@@ -38,7 +38,7 @@ public class PageFault {
    * graphically.  This line does so by removing the physical page 
    * at the oldestPage value.  The page which will be added into 
    * memory must also be displayed through the addPhysicalPage 
-   * function call.  One must also remember to reset the values of 
+   * function referencePage.  One must also remember to reset the values of
    * the page which has just been removed from memory.
    *
    * @param mem is the vector which contains the contents of the pages 
@@ -53,7 +53,7 @@ public class PageFault {
    * @param instruction describes type of instruction which was called
    *   'READ' or 'WRITE'
    */
-  public static void replacePage ( Vector mem , int virtPageNum , int replacePageNum , ControlPanel controlPanel, String instruction)
+  public void replacePage ( Vector mem , int virtPageNum , int replacePageNum , ControlPanel controlPanel, String instruction)
   {
     int count = 0;
     int oldestPage = -1;

@@ -6,6 +6,7 @@ Lab 4: Memory management
 4. Fix bugs.
 5. Implement one of the following page replacement algorithms:
   * **LRU approximation using bit matrix** (implemented)
+    * [*Algorithm explanation*](http://www.cs.nott.ac.uk/~pszgxk/courses/g53ops/Memory%20Management/MM14-LRU.html)
   * Round-robin
   * NRU
   * Clock
@@ -13,3 +14,5 @@ Lab 4: Memory management
   * Working set
   * WSClock
 6. Measure relative performance of replacement algorithm implemented
+
+[*Algorithm explanation*](http://www.cs.nott.ac.uk/~pszgxk/courses/g53ops/Memory%20Management/MM14-LRU.html)

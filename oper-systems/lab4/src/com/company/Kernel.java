@@ -25,6 +25,9 @@ public class Kernel extends Thread
   public int runcycles;
   public long block = (int) Math.pow(2,12);
   public static byte addressradix = 10;
+  private LRUPageFault pageReplacementAlgorithm = null;
+  int pageFaults = 0;
+
 
   public void init( String commands , String config )  
   {
@@ -49,7 +52,8 @@ public class Kernel extends Thread
     long low = 0;
     long addr = 0;
     long address_limit = (block * virtPageNum+1)-1;
-  
+    pageReplacementAlgorithm = new LRUPageFault(virtPageNum + 1);
+
     if ( config != null )
     {
       f = new File ( config );
@@ -392,6 +396,8 @@ public class Kernel extends Thread
     do {
       step();
     }while(runs != runcycles);
+    System.out.println("Instructions = " + runs);
+    System.out.println("Page faults = " + pageFaults);
   }
 
   public void step()
@@ -401,6 +407,9 @@ public class Kernel extends Thread
     controlPanel.instructionValueLabel.setText( instruct.inst );
     controlPanel.addressValueLabel.setText( Long.toString( instruct.addr , addressradix ) );
     getPage( Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) );
+
+    pageReplacementAlgorithm.referencePage(Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ));
+
     if ( controlPanel.pageFaultValueLabel.getText() == "YES" ) 
     {
       controlPanel.pageFaultValueLabel.setText( "NO" );
@@ -418,8 +427,9 @@ public class Kernel extends Thread
         {
           System.out.println( "READ " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
+        pageReplacementAlgorithm.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
         controlPanel.pageFaultValueLabel.setText( "YES" );
+        pageFaults++;
       } 
       else 
       {
@@ -448,8 +458,9 @@ public class Kernel extends Thread
         {
            System.out.println( "WRITE " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        PageFault.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
+        pageReplacementAlgorithm.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
         controlPanel.pageFaultValueLabel.setText( "YES" );
+        pageFaults++;
       } 
       else 
       {
