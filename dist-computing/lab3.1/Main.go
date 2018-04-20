@@ -22,9 +22,12 @@ func honeypot(putHoneyChan <- chan int, getUpBear chan bool) {
 	for {
 		var toadd = <-putHoneyChan
 		honey = honey + toadd
+		fmt.Println("Honey = ", honey)
 		if (honey == MAX_HONEY) {
+			potMutex.Lock()
+			honey=0
 			getUpBear <- true
-			honey = 0
+			potMutex.Unlock()
 		}
 	}
 }
@@ -36,7 +39,6 @@ func bee(putHoney chan int) {
 		putHoney <- 1
 		potMutex.Unlock()
 		fmt.Println("Bee put honey")
-
 	}
 }
 
@@ -45,15 +47,11 @@ func main() {
 	//var beeDoneChan = make(chan bool)
 	var bearChan = make(chan bool)
 
-	wg.Add(3)
+	wg.Add(5)
 	go honeypot(putHoneyChan, bearChan)
 	go bear(bearChan)
 	go bee(putHoneyChan)
 	go bee(putHoneyChan)
 	go bee(putHoneyChan)
 	wg.Wait()
-	//for {
-	//	<- beeDoneChan
-	//	go bee(putHoneyChan, beeDoneChan)
-	//}
 }

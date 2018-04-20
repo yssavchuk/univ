@@ -1,7 +1,6 @@
 package main
 
 import (
-	"sync"
 	"time"
 	"fmt"
 	"math/rand"
@@ -9,20 +8,20 @@ import (
 
 var toHairdresser = make(chan int)
 
-var hairdresserMutex = &sync.Mutex{}
-
 var seed = rand.NewSource(time.Now().UnixNano());
 
 var random = rand.New(seed);
 
 func runHairdresser() {
 	for {
-		var client int = <- toHairdresser
-		hairdresserMutex.Lock()
-		fmt.Println("Hairdresser started work with client ", client)
-		time.Sleep(1000 * time.Millisecond)
-		hairdresserMutex.Unlock()
-		fmt.Println("Hairdresser done work with client ", client)
+		select {
+		case client := <- toHairdresser:
+			fmt.Println("Hairdresser started work with client ", client)
+			time.Sleep(1000 * time.Millisecond)
+			fmt.Println("Hairdresser done work with client ", client)
+		default:
+			fmt.Println("Hairdresser is sleeping")
+		}
 	}
 
 }
@@ -35,5 +34,9 @@ func main() {
 		time.Sleep(sleepTime)
 		toHairdresser <- i
 		i++
+		if i == 4 {
+			time.Sleep(10000 * time.Millisecond)
+		}
+
 	}
 }
