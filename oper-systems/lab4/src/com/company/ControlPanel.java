@@ -163,6 +163,7 @@ public class ControlPanel extends Frame
 
   public void init( Kernel useKernel , String commands , String config ) 
   {
+    System.out.println(config);
     kernel = useKernel ;
     kernel.setControlPanel( this );
     setLayout( null );
