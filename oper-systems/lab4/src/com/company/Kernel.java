@@ -408,6 +408,12 @@ public class Kernel extends Thread
     controlPanel.addressValueLabel.setText( Long.toString( instruct.addr , addressradix ) );
     getPage( Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) );
 
+    System.out.println("From step()---------------------------------------------------------------------------------");
+    for (int j = 0; j < memVector.size(); j++) {
+      System.out.println(((Page) memVector.get(j)).toString());
+    }
+    System.out.println("-------------------------------------------------------------------------------------------");
+
     pageReplacementAlgorithm.referencePage(Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ));
 
     if ( controlPanel.pageFaultValueLabel.getText() == "YES" ) 
@@ -427,7 +433,7 @@ public class Kernel extends Thread
         {
           System.out.println( "READ " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        pageReplacementAlgorithm.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
+        pageReplacementAlgorithm.replacePage( memVector , page.id , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
         controlPanel.pageFaultValueLabel.setText( "YES" );
         pageFaults++;
       } 
@@ -458,7 +464,7 @@ public class Kernel extends Thread
         {
            System.out.println( "WRITE " + Long.toString(instruct.addr , addressradix) + " ... page fault" );
         }
-        pageReplacementAlgorithm.replacePage( memVector , virtPageNum , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
+        pageReplacementAlgorithm.replacePage( memVector , page.id , Virtual2Physical.pageNum( instruct.addr , virtPageNum , block ) , controlPanel, instruct.inst );
         controlPanel.pageFaultValueLabel.setText( "YES" );
         pageFaults++;
       } 

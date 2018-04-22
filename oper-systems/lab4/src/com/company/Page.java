@@ -21,6 +21,10 @@ public class Page
     this.lastTouchTime = lastTouchTime;
     this.high = high;
     this.low = low;
-  } 	
+  }
+
+  public String toString(){
+    return "id = " + id + " physical = " + physical;
+  }
 
 }
