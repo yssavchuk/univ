@@ -22,7 +22,7 @@ public class LRUPageFault extends PageFault {
     }
 
     public void referencePage(int pageNum){
-        System.out.println("Reference " + pageNum);
+        //System.out.println("Reference " + pageNum);
         // When a page frame, k, is referenced then
         // all the bits of the k row are set to one
         pageState.get(pageNum).set(0, size());
@@ -30,7 +30,6 @@ public class LRUPageFault extends PageFault {
         for (int i = 0; i < size(); i++) {
             pageState.get(i).set(pageNum, false);
         }
-        System.out.println(pageState);
     }
 
     private int findPage(Vector memory){
@@ -52,12 +51,8 @@ public class LRUPageFault extends PageFault {
     }
 
     private void makeReplace(Vector mem, int oldPageNum, int newPageNum, ControlPanel controlPanel, String instruction){
-        System.out.println("Old page num" + oldPageNum);
-        System.out.println("New page num" + newPageNum);
         Page oldPage = ( Page ) mem.elementAt( oldPageNum );
         Page newPage = ( Page ) mem.elementAt( newPageNum );
-        System.out.println("Old page physical" + oldPage.physical);
-        System.out.println("New page physical" + newPage.physical);
         newPage.R = 1;
         if(instruction.equals("WRITE")) {
             newPage.M = 1;
